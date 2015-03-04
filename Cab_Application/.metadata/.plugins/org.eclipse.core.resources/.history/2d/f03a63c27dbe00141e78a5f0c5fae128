@@ -1,0 +1,413 @@
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Cab Application</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <p class="navbar-text">Enterprise Project Cab</p>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="Home.jsp">Dashboard</a></li>
+			<li><a href="booking.htm">Booking</a></li>
+            <li><a href="setting.htm">Settings</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="logout">Logout</a></li>
+          </ul>
+         </div>
+      </div>
+</nav>
+<form:form class="form-dashboard" commandName="cabdto" id="settingform">
+<%
+String name="";
+String AdminCheck="";
+
+if(session.getAttribute("username")!=null){
+	name=(String)session.getAttribute("username"); 
+
+%>
+<font style="text-align: center;"><%="Welcome "+name%></font>
+<%}
+name=(String)session.getAttribute("username"); 
+AdminCheck=name.toUpperCase(); %>
+<%
+String userid="";
+if(session.getAttribute("userid")!=null)
+	{
+	userid=(String)session.getAttribute("userid"); 
+	}
+%>
+<br/>
+    <div class="col-sm-8 col-md-12 main">	   
+	   <div id="page-wrapper">
+		<div id="page-inner">
+                                        
+            <div class="row">
+               <div class="col-md-13 col-sm-13">
+                    <div class="panel panel-primary"  style="height:480px;width:900px;margin-left:210px">
+                        <div class="panel-heading">
+                            CAB SETTINGS
+                        </div>
+                        
+							<div class="panel-body">
+                            <ul class="nav nav-tabs">
+                            	<li class="<active"><a href="#settings" data-toggle="tab">Update Contact</a>
+                                </li>                              	
+                                <%                      
+                                	 if(AdminCheck.equals("ADMIN"))
+                                	 {
+                                 %>                               
+                                <li class=""><a href="#home" data-toggle="tab">Add Cab</a>
+                                </li>                                                           
+                                <li class=""><a href="#profile" data-toggle="tab">Manage Cab</a>
+                                </li>                               
+                                <li class=""><a href="#adminsettings" data-toggle="tab">Manage Administrator</a>
+                                </li>
+                                <%} %>                               
+                            </ul>
+
+                            <div class="tab-content">
+							<%-- <form:form class="form-dashboard" action="addCab" commandName="cabdto"> --%>
+								<div class="tab-pane fade active in" id="settings">		 		 	
+								<input type="hidden" value="updatecontact" name="hidden">
+						<br/>
+						  <table>
+							<tbody>
+									<tr>
+									<td><b>Associate ID <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+									<td><input type="text" name="userid" disabled="disabled" placeholder="Your Associate ID" class="form-control input" value=<%=userid%>></td>									
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+									<tr>
+									<td><b>Associate Email Id</b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+									<td><input type="text" name="emailid" placeholder="Your Email Id" class="form-control input"></td>		
+									<td><span style="color:red"  id="emailloc"></span></td>							
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<td><b>Associate Contact Number</b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+									<td><input type="text" name="contactno"  placeholder="Your Contact Number" class="form-control input"></td>
+									<td><span style="color:red"  id="contactloc"></span></td>
+									</tr>                                                                                      
+							   </tbody>	
+				   </table>
+			<br/><br/><br/><br/><br/><br/>
+			<input type="submit" value="Change" class="btn btn-primary" onclick="submitSettingsForm('updatecontact')" onsubmit="return validatecontact()">
+			<input type="reset" value="Cancel" class="btn btn-primary" onclick="window.location.href='Home.jsp'">
+			<br>
+			 <% 
+								String str1="";
+								if(session.getAttribute("message")!=null){
+									str1=(String)session.getAttribute("message"); 
+								%>
+								<font color="red"><span><%=str1%></span></font>
+								<%} 
+								session.removeAttribute("message");
+								%>
+			</div>
+								 <%                      
+                                	 if(AdminCheck.equals("ADMIN")){
+                                 %> 
+                               <div class="tab-pane fade" id="home">
+                               <input type="hidden" value="addcab" name="hidden">
+								<br/>
+								   <table>
+									<center>
+									<tbody>
+										<tr>
+										<td><b>Cab Number <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabNumber"  placeholder="Cab Number" class="form-control input"/></td>
+										<td><span style="color:red"  id="cabnoloc"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+										<td><b>Driver Name <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabDriverName"  placeholder="Driver Name" class="form-control input"/></td>
+										<td><span style="color:red"  id="dnameloc"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+										<td><b>Driver Contact Number <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabDriverPhone" placeholder="Driver Contact Number" class="form-control input"/></td>
+										<td><span style="color:red"  id="dphnloc"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										 <tr>
+										<td><b>Cab Capacity <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabCapacity"  placeholder="Cab Capacity" class="form-control input"/></td>
+										<td><span style="color:red"  id="cabcapacityloc"></span></td>
+										</tr>   
+										<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr> 
+										 <tr>
+										<td><b>Cab POC <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabPoc" placeholder="Cab Poc" class="form-control input"/></td>
+										<td><span style="color:red"  id="cabpocloc"></span></td>
+										</tr>                                                                                       
+									</tbody>
+									
+									</center>
+						</table>
+						<br/><br/>
+							<input type="button" value="Add" class="btn btn-primary" onclick="submitSettingsForm('addCab')">
+							<input type="reset" value="Cancel" class="btn btn-primary" onclick="window.location.href='Home.jsp'">
+							<br/>
+							 <%-- <% 
+								String str1="";
+								if(session.getAttribute("message")!=null){
+									str1=(String)session.getAttribute("message"); 
+								%>
+								<font color="red"><span><%=str1%></span></font>
+								<%} 
+								session.removeAttribute("message");
+								%> --%>
+						</div>
+						<%-- </form:form> --%>
+						<div class="tab-pane fade" id="profile">
+						<input type="hidden" value="managecab" name="hidden">
+						<br/>
+							   <table>
+									<center>
+									<tbody>
+										<tr>
+										<td><b>Cab Number <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td>
+											<!-- <select class="form-control input">
+												<option value="select" selected>--Select--</option>
+												<option value="north">9231</option>
+												<option value="east">8626</option>
+												<option value="west">1123</option>
+												<option value="south">2581</option>
+											</select> -->
+											<form:select class="form-control input" id="cabnum" path="cabNumber" onchange="fillCabInfo()">
+												<form:option value="" label="--select--" />
+			                      				<form:options items="${cabnumlist}" />
+											</form:select>
+											
+										</td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+										<td><b>Driver Name <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabDriverName" placeholder="Driver Name" id="dname" class="form-control input" /></td>
+										<td><span style="color:red"  id="cabdriverloc"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+										<td><b>Driver Contact Number <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabDriverPhone" id="dph" placeholder="Driver Contact Number " class="form-control input" /></td>
+										<td><span style="color:red"  id="drivercontactloc"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										 <tr>
+										<td><b>Cab Capacity <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabCapacitystr" id="cap" placeholder="Cab Capacity " class="form-control input" /></td>
+										<td><span style="color:red"  id="cabcapacityloc"></span></td>
+										</tr>
+										<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr> 
+										 <tr>
+										<td><b>Cab POC <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+										<td><form:input path="cabPoc" id="poc" placeholder="Cab Poc" class="form-control input"/></td>
+										<td><span style="color:red"  id="dcabpocloc"></span></td>
+										</tr>                                                                                            
+									</tbody>
+									
+									</center>
+						</table>
+						<br/><br/>
+							<input type="submit" value="Change" class="btn btn-primary" onclick="submitSettingsForm('managecab')">
+							<input type="reset" value="Cancel" class="btn btn-primary" onclick="window.location.href='Home.jsp'">
+							
+						</div>
+						
+			<div class="tab-pane fade" id="adminsettings">
+			<input type="hidden" value="manageadmin" name="hidden">
+						<br/>
+						  <table>
+							<tbody>
+									<tr>
+									<td><b>Administrator Id <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+									<td><input type="text" name="userid" disabled="disabled" placeholder="Your Administrator ID" class="form-control input" value=<%=userid%>></td>
+									</tr>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+									</tr>
+									<tr>
+									<td><b>New Administrator Id <font color="red">*</font></b></td>
+										<td>&nbsp;</td>
+										<td><b>:</b></td>
+										<td>&nbsp;&nbsp;</td>
+									<td><input type="text" name="adminid"  placeholder="Enter New Admin Id" class="form-control input"></td>
+									</tr>                                                                                      
+							   </tbody>	
+				   </table>
+			<br/><br/><br/><br/><br/><br/>
+			<input type="submit" value="Change" class="btn btn-primary" onclick="submitSettingsForm('manageadmin')">
+			<input type="reset" value="Cancel" class="btn btn-primary" onclick="window.location.href='Home.jsp'">
+
+			</div>
+			
+			 <% } %>
+			 	
+			
+		 </div>
+		</div>
+                
+                
+       </div><!-- col-->
+                   
+          
+    </div><!-- row-->
+		  
+		  
+		  </div> <!-- page inner-->
+		  
+          </div><!-- page wraper-->
+	
+     
+	</div><!-- main-->
+
+</form:form>
+<hr>
+                       
+<footer>
+  <p class="text-center">©2014 Cognizant Technology Solutions</p>
+</footer>
+<!-- script references -->
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+         <script type="text/javascript">
+	         function submitSettingsForm(a)
+	         {
+	         /* 	var abc=document.getElementByName("hidden").val();
+	         	var count=0;
+	         	if(abc.equals("updatecontact"))
+	         	{
+	         		var phone=document.getElementById("contactloc").value;
+	         		var valid=true;
+	         		if(uphone.length!=10||!allnumeric(uphone)){
+		 			 alert("enter a valid phone number");  
+		 			 count++;
+					}
+					
+				}  */
+				    /* if(count==0){ */document.forms[0].action=a;
+	    	    	 document.forms[0].submit();/* } */
+		        	 
+		      
+	        	 
+	         }
+	         function fillCabInfo() {
+			     var val = $('#cabnum').val();
+			     
+			     $.ajax({
+			       url : 'cabdetails',
+			       method : 'get',
+			       ContentType : 'json',
+			       data : {
+			    	   cabnum : val
+			       },
+			       success : function(response) {
+			    	   
+			         
+			         if (response != null) {
+			        	 var obj=JSON.parse(JSON.stringify(response));
+			        	
+			        	document.getElementById("dname").value=obj.cabDriverName;
+			        	document.getElementById("dph").value=obj.cabDriverPhone;
+			        	document.getElementById("cap").value=""+obj.cabCapacity;
+			        	document.getElementById("poc").value=obj.cabPoc;
+			         }
+			       }
+			     });
+			   }
+        </script>
+	<!-- script references -->
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+	</body>
+</html>

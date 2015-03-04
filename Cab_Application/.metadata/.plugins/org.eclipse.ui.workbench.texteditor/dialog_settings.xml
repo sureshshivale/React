@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="setting.htm" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="setting.htm"/>
+			<item value="isInsert"/>
+			<item value="validateform"/>
+			<item value="updatecontact"/>
+			<item value="validatecontact"/>
+			<item value="adduser"/>
+			<item value="sign"/>
+			<item value="uname"/>
+		</list>
+		<list key="replacehistory">
+			<item value="userid"/>
+			<item value=".jsp"/>
+			<item value="&lt;version&gt;${hibernate.version}&lt;/version&gt;"/>
+			<item value="&lt;version&gt;4.1.7.Final&lt;/version&gt;"/>
+			<item value="form"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="257" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="380" key="DIALOG_HEIGHT"/>
+		<item value="936" key="DIALOG_X_ORIGIN"/>
+		<item value="356" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

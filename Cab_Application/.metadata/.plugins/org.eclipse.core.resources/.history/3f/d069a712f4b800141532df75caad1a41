@@ -1,0 +1,391 @@
+package com.cab.dao.factory;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.naming.InitialContext;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.transaction.UserTransaction;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Repository;
+
+
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cab.dao.entity.Cab;
+import com.cab.dao.entity.CabRoute;
+import com.cab.dao.entity.DailyBooking;
+import com.cab.dao.entity.DailySlotSnap;
+import com.cab.dao.entity.TimeSlot;
+import com.cab.dao.entity.UserProfile;
+
+@Repository
+public class CabDaoImpl implements CabDaoIface {
+	
+	@PersistenceContext
+	EntityManager entitymanager;
+	@Transactional
+	@Override
+	public UserProfile  readUser(String userId) {
+		/*   EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("cab-dao");
+		   entitymanager = emfactory.createEntityManager( );*/
+		
+		
+		  /* CriteriaBuilder criteriaBuilder = entitymanager.getCriteriaBuilder();
+		   CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+		   Root<UserProfile> from = criteriaQuery.from(UserProfile.class);
+
+		   //select all records
+		   System.out.println("Select all records");
+		   CriteriaQuery<Object> select = criteriaQuery.select(from);
+		   TypedQuery<Object> typedQuery = entitymanager.createQuery(select);
+		   List<Object> resultlist = typedQuery.getResultList();
+		   
+		   UserProfile user=null;
+		   List<UserProfile> userProfile=new ArrayList<UserProfile>();
+		   for(Object o:resultlist)
+		   {
+			   user=(UserProfile)o;
+			   userProfile.add(user);
+		   }*/
+		
+		   
+		UserProfile userProfile = entitymanager.find( UserProfile.class, userId);
+		return userProfile;
+	}
+	@Transactional
+	@Override
+	public boolean isInsert(UserProfile user) 
+	{
+		
+		try
+		{
+			
+			entitymanager.persist(user);
+			entitymanager.flush();
+		    
+		    
+			return true;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Transactional
+	@Override
+	public boolean isCabInsert(Cab cab)
+	{
+		try
+		{
+			
+			entitymanager.persist(cab);
+			entitymanager.flush();
+		    System.out.println("entered");
+		    
+			return true;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Transactional
+	@Override
+	public boolean isCabUpdate(Cab cab)
+	{
+		try
+		{
+			
+			Cab cabup=entitymanager.find(Cab.class,cab.getCabNum());
+		
+			cabup.setCabCapacity(cab.getCabCapacity());
+			cabup.setCabDrvName(cab.getCabDrvName());
+			cabup.setCabDrvPhone(cab.getCabDrvPhone());
+			cabup.setCabPoc(cab.getCabPoc());
+			return true;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Transactional
+	@Override
+	public boolean isUserUpdate(String userid, String contactno)
+	{
+		try
+		{
+			
+			UserProfile user=entitymanager.find(UserProfile.class,userid);
+			user.setUserPhone(contactno);
+			return true;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Transactional
+	@Override
+	public boolean isAdminUpdate(String userid, String adminid)
+	{
+		try
+		{
+			System.out.println(userid+adminid);
+			UserProfile user=entitymanager.find(UserProfile.class,userid);
+			user.setUserId(adminid);
+			return true;
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Transactional
+	@Override
+	public List<CabRoute> getAllCabDirection()
+	{
+		List<CabRoute> cabrtlist=null;
+		cabrtlist=entitymanager.createNamedQuery("CabRoute.findAll", CabRoute.class).getResultList();
+		
+		return cabrtlist;
+	}
+	@Transactional
+	@Override
+	public List<TimeSlot> getAllCabTime()
+	{
+		List<TimeSlot> cabtimelist=null;
+		cabtimelist=entitymanager.createNamedQuery("TimeSlot.findAll", TimeSlot.class).getResultList();
+		
+		return cabtimelist;
+	}
+	@Transactional
+	@Override
+	public List<CabRoute> getCabRoute(String direction)
+	{
+		
+		Query query = entitymanager.createQuery("SELECT c FROM CabRoute c where c.cabDirection=:arg1", CabRoute.class);
+		query.setParameter("arg1", direction);
+		List<CabRoute> routelist=query.getResultList();
+		return routelist;
+		
+	}
+	@Transactional
+	@Override
+	public String seatCount(String route,String time)
+	{
+		String info="";
+		try
+		{
+			Query query1 = entitymanager.createQuery("SELECT c.cabRouteId FROM CabRoute c where c.cabRoute=:arg1",String.class);
+			query1.setParameter("arg1", route);
+			String routeid=(String)query1.getSingleResult();
+			
+			Query query2 = entitymanager.createQuery("SELECT t.timeSlotId FROM TimeSlot t where t.timeSlot=:arg1",String.class);
+			java.sql.Time orgtme = java.sql.Time.valueOf(time);
+			query2.setParameter("arg1",orgtme);
+			String timeslotid=(String)query2.getSingleResult();
+			
+			Query query3 = entitymanager.createQuery("SELECT d.dailySlotSnapId FROM DailySlotSnap d where d.cabRouteId=:arg1 and d.timeSlotId=:arg2",Integer.class);
+			query3.setParameter("arg1", routeid);
+			query3.setParameter("arg2", timeslotid);
+			int dailyslotsnapid=(Integer)query3.getSingleResult();
+			
+			Query query4 = entitymanager.createQuery("SELECT count(d.dailyBookingId) FROM DailyBooking d where d.dailySlotSnapId=:arg1",Long.class);
+			query4.setParameter("arg1", dailyslotsnapid);
+			long seatcount=(Long)query4.getSingleResult();
+			
+			info=""+seatcount+"|"+routeid+"|"+timeslotid+"|"+dailyslotsnapid;
+		}
+		catch(NoResultException nre)
+		{
+			System.out.println("result not found");
+		}
+			
+		
+		return info;
+				
+	}
+	@Transactional
+	@Override
+	public int getCapacity(String routeid, String timeslotid)
+	{
+		int capacity=0;
+		try
+		{
+			Query query1 = entitymanager.createQuery("SELECT d.cabNum FROM DailySlotSnap d where d.cabRouteId=:arg1 and d.timeSlotId=:arg2",String.class);
+			query1.setParameter("arg1", routeid);
+			query1.setParameter("arg2", timeslotid);
+			String cabnum=(String)query1.getSingleResult();
+			
+			Query query2 = entitymanager.createQuery("SELECT c.cabCapacity FROM Cab c where c.cabNum=:arg1",Integer.class);
+			query2.setParameter("arg1", cabnum);
+			capacity=(Integer)query2.getSingleResult();
+		}
+		catch(NoResultException nre)
+		{
+			System.out.println("result not found");
+			nre.printStackTrace();
+		}
+		
+		return capacity;
+	}
+	@Transactional
+	@Override
+	public boolean findUserBooking(String userid)
+	{
+		try
+		{
+			Query query4 = entitymanager.createQuery("SELECT d FROM DailyBooking d where d.userId=:arg1",DailyBooking.class);
+			query4.setParameter("arg1", userid);
+			DailyBooking dailybooking=(DailyBooking)query4.getSingleResult();
+			
+			return false;
+		}
+		catch(NoResultException nre)
+		{
+			return true;
+		}
+	}
+	@Transactional
+	@Override
+	public boolean bookCab(int dailyslotsnapid, String userid)
+	{
+		DailyBooking booking=new DailyBooking();
+		booking.setDailySlotSnapId(dailyslotsnapid);
+		booking.setUserId(userid);
+		int bookingid=1;
+		
+		try
+		{
+			Query query1 = entitymanager.createQuery("SELECT max(d.dailyBookingId) FROM DailyBooking d",Integer.class);
+			if(query1.getSingleResult()!=null)
+			{
+				bookingid=(Integer)query1.getSingleResult();
+				bookingid+=1;
+			}
+			booking.setDailyBookingId(bookingid);
+			
+			
+			entitymanager.persist(booking);
+			entitymanager.flush();
+		    System.out.println("entered");
+		    
+			return true;
+		}
+		catch(NoResultException nre)
+		{
+			System.out.println("ID not found,first entry");
+			booking.setDailyBookingId(bookingid);
+			entitymanager.persist(booking);
+			entitymanager.flush();
+		    System.out.println("entered");
+		    
+			return true;
+			
+		}
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	@Transactional
+	@Override
+	public List<Cab> getAllCabs() {
+		
+		List<Cab> cabrtlist=null;
+		cabrtlist=entitymanager.createNamedQuery("Cab.findAll", Cab.class).getResultList();
+		
+		return cabrtlist;
+	}
+	@Transactional
+	@Override
+	public String getCabDetails(String cabNumber)
+	{
+		String result="";
+		Query query1 = entitymanager.createQuery("SELECT d FROM DailySlotSnap d where d.cabNum=:arg1",DailySlotSnap.class);
+		query1.setParameter("arg1", cabNumber);
+		List<DailySlotSnap> dailyslotsnaplist=query1.getResultList();
+		for(DailySlotSnap dss:dailyslotsnaplist)
+		{
+			Query query2 = entitymanager.createQuery("SELECT t.timeSlot FROM TimeSlot t where t.timeSlotId=:arg1",Date.class);
+			query2.setParameter("arg1",dss.getTimeSlotId());
+			Date orgtTime=(Date)query2.getSingleResult();
+			
+			Query query3 = entitymanager.createQuery("SELECT c.cabRoute FROM CabRoute c where c.cabRouteId=:arg1",String.class);
+			query3.setParameter("arg1", dss.getCabRouteId());
+			String route=(String)query3.getSingleResult();
+			
+			result+=orgtTime.toString()+"|"+route+"|";
+		}
+		
+		
+		return result;
+	}
+	@Transactional
+	@Override
+	public List<Object> getFirstCabTabData(String cabNum,String cabRoute)
+	{
+		List<Object> returndata=new ArrayList<Object>();
+		Cab cab = entitymanager.find( Cab.class, cabNum);
+		Query query3 = entitymanager.createQuery("SELECT c.cabDirection FROM CabRoute c where c.cabRoute=:arg1",String.class);
+		query3.setParameter("arg1",cabRoute);
+		String direction=(String)query3.getSingleResult();
+		returndata.add(cab);
+		returndata.add(direction);
+		return returndata;
+	}
+	@Transactional
+	@Override
+	public List<UserProfile> getCabUserList(String dailysnapid)
+	{
+		List<UserProfile> userlist=new ArrayList<UserProfile>();
+		Query query4 = entitymanager.createQuery("SELECT d FROM DailyBooking d where d.dailySlotSnapId=:arg1",DailyBooking.class);
+		query4.setParameter("arg1",Integer.parseInt(dailysnapid));
+		List<DailyBooking> idList=(List<DailyBooking>)query4.getResultList();
+		for(DailyBooking d:idList)
+		{
+			UserProfile userProfile = entitymanager.find( UserProfile.class, d.getUserId());
+			userlist.add(userProfile);
+		}
+		return userlist;
+	}
+	@Transactional
+	@Override
+	public Cab getCabDetailsWithId(String cabnum)
+	{
+		Cab cab=entitymanager.find(Cab.class, cabnum);
+		return cab;
+	}
+}

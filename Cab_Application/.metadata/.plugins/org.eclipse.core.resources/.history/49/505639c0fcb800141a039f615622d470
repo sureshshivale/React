@@ -1,0 +1,5 @@
+package cab.dto;
+
+public class CombinedClassDto {
+
+}

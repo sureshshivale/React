@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Fri Feb 27 18:50:53 IST 2015
+org.eclipse.jst.jee.server\:/binary\:C\:\\Users\\420041\\.m2\\repository\\org\\springframework\\spring-web\\4.0.5.RELEASE\\spring-web-4.0.5.RELEASE.jar=WEB-INF/lib/spring-web-4.0.5.RELEASE.jar
+org.eclipse.jst.j2ee.server\:cab-dao=WEB-INF/lib/cabapp-0.0.1-SNAPSHOT.jar

@@ -1,0 +1,20 @@
+package cab.dto;
+
+public class CombinedClassDto
+{
+	CabDto cab;
+	UserProfileDto user;
+	public CabDto getCab() {
+		return cab;
+	}
+	public void setCab(CabDto cab) {
+		this.cab = cab;
+	}
+	public UserProfileDto getUser() {
+		return user;
+	}
+	public void setUser(UserProfileDto user) {
+		this.user = user;
+	}
+
+}

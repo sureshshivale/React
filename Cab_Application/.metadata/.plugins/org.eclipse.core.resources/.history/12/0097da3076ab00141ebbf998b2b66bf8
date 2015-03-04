@@ -1,0 +1,41 @@
+package cab.bo;
+
+import java.util.List;
+
+import com.cab.dao.entity.UserProfile;
+
+
+import com.cab.dao.factory.LoginDaoIFace;
+import com.cab.dao.factory.LoginDaoImpl;
+
+import cab.dto.UserProfileDto;
+import cab.transformer.UserProfileTransformer;
+
+public class CabService {
+	LoginDaoIFace login;
+	UserProfileTransformer userTransform;
+	private boolean isValid;
+	
+	public boolean isValidLogin(String userId)
+	{
+		
+		isValid=false;
+		login=new LoginDaoImpl(); 
+		List<UserProfile> userProfile=login.readUser(userId);//returning the list of all rows of user profile table(returns entity objects)
+		List<UserProfileDto> userDto=userTransform.convertUserProfileDto(userProfile);//returns the list of dto by transforming entity objects to dtos
+		for(UserProfileDto userProfileDto:userDto)
+		{
+			if(userId.equals(userProfileDto.getUserId()))
+			{
+				isValid=true;
+				break;
+			}
+		}
+		
+		
+		
+		return isValid;
+		
+	}
+
+}

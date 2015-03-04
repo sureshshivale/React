@@ -1,0 +1,11 @@
+package cab.controller;
+
+import cab.dto.CabDto;
+import cab.dto.UserProfileDto;
+
+public class CombinedClass {
+	CabDto cab;
+	UserProfileDto user;
+	
+
+}

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Cab Application</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <p class="navbar-text">Enterprise Project Cab</p>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+           <li><a href="Home.jsp">Dashboard</a></li>
+			<li><a href="Booking.jsp">Booking</a></li>
+            <li><a href="Settings.jsp">Settings</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+         </div>
+      </div>
+</nav>
+<form action="login">
+	<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+   <div class="modal-dialog" id="modd">
+      <div class="modal-content">
+         <div class="modal-header">
+		    
+            <h4 class="modal-title" id="myModalLabel">
+               <font size="3">Enterprise Project Cab</font>
+            </h4>
+         </div>
+         <div class="modal-body">
+            <table>
+			<tr>
+				<td><label><b>Enter your Associate Id<font color="red">*</font>&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;</b></label></td>
+				<td><input type="text" name="userId" placeholder="Your Associate Id" class="form-control" style="width:250px;" /></td>
+			</tr>
+			</table>
+			
+         </div>
+         <div class="modal-footer">
+           <!--  <button type="button" class="btn btn-primary" data-dismiss="modal">
+               Submit
+            </button> -->
+            <input type="submit" value="Submit" class="btn btn-primary" data-dismiss="modal" />
+            
+         </div>
+      </div>
+   </div>
+</div>
+
+	
+</form>
+<form class="form-dashboard">
+
+<br/>
+	
+
+    <div class="col-sm-8 col-md-12 main">
+    
+           <div class="row">
+    
+		 <div class="col-md-4 col-sm-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            DASHBOARD
+                        </div>
+
+                  <div class="panel-body scrollpanel" style="height:460px">
+                    
+                  <button type="button" class="btn btn-link btn-sm"><font size="3">9231 - <font color="green">07:30 PM</font> - <font color="#ed9c28">North</font></font></button> 
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 12.5%">
+                          </div>
+                    </div>
+					 <button type="button" class="btn btn-link btn-sm"><font size="3">8626 - <font color="green">07:30 PM</font> - <font color="#ed9c28">South</font></font></button> 
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
+                          </div>
+                    </div>
+					 <button type="button" class="btn btn-link btn-sm"><font size="3">1123 - <font color="green">09:30 PM</font> - <font color="#ed9c28">North</font></font></button> 
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 37.5%">
+                          </div>
+                    </div>
+					 <button type="button" class="btn btn-link btn-sm"><font size="3">2581 - <font color="green">09:30 PM</font> - <font color="#ed9c28">South</font></font></button> 
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                          </div>
+                    </div>
+				
+					 <br/><br/>
+              		<button type="button" class="btn btn-warning btn-sm">Refresh Dashboard</button>
+
+                  </div>/panel-body
+              </div>/panel
+	
+          
+          </div>
+		   
+		   <div class="col-lg-8 col-right">
+		   <div id="page-wrapper" >
+            <div id="page-inner">
+                                        
+            <div class="row">
+                    <div class="panel panel-primary" style="height:500px;width:812px">
+                        <div class="panel-heading">
+                            CAB 1 INFORMATION
+                        </div>
+                        <div class="panel-body scrollpanel" style="height:455px" >
+						<table>
+							<tbody>
+								<tr>
+								  <td><b>Cab Number : </b></td>
+								  <td>9239</td>
+								  <td>&nbsp;&nbsp;&nbsp;</td>
+								  <td>&nbsp;&nbsp;&nbsp;</td>
+								  <td><b>Cab Timing : </b></td>
+								  <td>07:30 PM</td> 
+								</tr> 
+								<tr>
+								  <td><b>Cab Driver Name : </b></td>
+								  <td>Pappu</td>
+								  <td>&nbsp;&nbsp;&nbsp;</td>
+								  <td>&nbsp;&nbsp;&nbsp;</td>
+								  <td><b>Cab Driver Number : </b></td>
+								  <td>9876541230</td>
+								</tr>
+								<tr>
+								  <td><b>Cab Direction : </b></td>
+								  <td>South</td>
+								  <td>&nbsp;&nbsp;&nbsp;</td>
+								  <td>&nbsp;&nbsp;&nbsp;</td>
+								  <td><b>Cab Route : </b></td>
+								  <td>Ruby</td>
+								</tr>
+							</tbody>	
+						</table>
+							<br/>
+						<table class="table">
+							<tbody>
+								<tr>
+								  <th>No</th>
+								  <th>Associate Id</th>
+								  <th>Associate Name</th>
+								  <th>Associate Phone Number</th>
+								  <th>Associate Email</th>
+								  <th></th>
+								</tr>
+								<tr>
+								  <td>1</td>
+								  <td>389777</td>
+								  <td>Suresh Shivale</td>
+								  <td>9869564272</td>
+								  <td>example@cognizant.com</td>
+								  <td></td>
+								</tr>  
+								<tr>
+								  <td>2</td>
+								  <td>426169</td>
+								  <td>Saikat Bhattacharya</td>
+								  <td>9831791558</td>								  
+								  <td>example1@cognizant.com</td>
+								  <td></td>
+								</tr>
+								<tr>
+								  <td>3</td>
+								  <td>426146</td>
+								  <td>Subhodip Dutta</td>	 
+								  <td>8272563698</td>
+								  <td>example2@cognizant.com</td>	
+								  <td>
+								  <a href="Booking.jsp"><img class="addIcon" width="20" height="20" style="display:inline;" title="" alt="Add Icon" 
+									src="images/add.png" data-original-title="Click to add Associate"></a>
+								  </td>								  
+								</tr>
+							</tbody>	
+						</table>
+					       
+					 </div>       
+				 </div> 
+			</div>
+		  
+		  
+		  </div> page wraper
+		</div>
+	  </div>
+
+     
+	</div>
+	
+</form>
+<hr>
+<footer>
+
+  <p class="text-center">©2014 Cognizant Technology Solutions</p>
+</footer>
+        
+	<!-- script references -->
+	<script src="js/jquery-1.10.2.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/scripts.js"></script>
+		
+<script>
+   $(function () { 
+    $('#myModal').modal({});
+     var winH = $(window).height();
+	 var winW = $(window).width();
+
+	// Set the popup window to center
+	$('#modd').css('top', winH / 3.5 - $('#modd').height()/2);
+	$('#modd').css('left', (winW / 2 - $('#modd').width())-($('#modd').width()/7));
+	 
+   
+   });
+</script>
+	</body>
+</html>

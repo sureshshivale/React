@@ -1,0 +1,48 @@
+package com.cab.dao.factory;
+
+import java.util.List;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import com.cab.dao.entity.Cab;
+import com.cab.dao.entity.CabRoute;
+import com.cab.dao.entity.DailySlotSnap;
+import com.cab.dao.entity.TimeSlot;
+import com.cab.dao.entity.UserProfile;
+
+public interface CabDaoIface {
+	public UserProfile readUser(String userId);
+	public boolean isInsert(UserProfile user);
+	public boolean isCabInsert(Cab cab);
+	public boolean isCabUpdate(Cab cab);
+	public List<Cab> getAllCabs();
+	public List<CabRoute> getAllCabDirection();
+	public List<TimeSlot> getAllCabTime();
+	public List<CabRoute> getCabRoute(String direction);
+	public String seatCount(String route, String time);
+	public int getCapacity(String routeid, String timeslotid);
+	public boolean bookCab(int dailyslotsnapid, String userid);
+	public String getCabDetails(String cabNumber);
+	public List<Object> getFirstCabTabData(String cabNum,String cabRoute);
+	public List<UserProfile> getCabUserList(String dailysnapid);
+	public boolean findUserBooking(String userid);
+	public Cab getCabDetailsWithId(String cabnum);
+	public boolean isUserUpdate(String userid, String contactno, String emailid);
+	public boolean isAdminUpdate(String userid, String adminid);
+}
